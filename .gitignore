@@ -1,0 +1,61 @@
+# Binaries
+
+*.exe
+# These are built from .in files
+
+# Unit tests
+
+# Other generated files
+
+*.[1358]
+*.pyc
+*.pc
+*.sum
+*.i
+*.o
+*.obj
+*.os
+*.a
+*.lo
+*.la
+*.so
+*.so.[0-9.]*
+*.dylib
+*.dll
+*~
+*.swp
+*.egg-info
+*.gcno
+# Built sources
+gps_maskdump.c
+gpsd_maskdump.c
+gpsd.h
+gpsd_config.h.in
+gpsd_config.h
+packet_names.h
+revision.h
+timebase.h
+gpsd.spec
+MANIFEST
+.kdbgrc.*
+.project
+.cproject
+tags
+# Python files
+
+patches
+# build/test logs from devtools/do-build
+BUILD.*
+CHECK.*
+# SCons cruft
+config.log
+.sconsign.dblite
+.sconf_temp
+.scons-option-cache
+
+*.bak
+*.ini
+iic_test_big_dvi/Project/MDK-ARM_V5.10/
+iic_test_big_dvi/Project/MDK-ARM_V4.72A/
+iic_test_big_dvi/Project/SouceInsight/
+iic_test_big_dvi/Output
