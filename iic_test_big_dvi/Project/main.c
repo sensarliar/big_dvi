@@ -276,9 +276,15 @@ EXTI0_Init();	//初始化外部中断0(EXTI0)
 	
 
 	
-	if(1)
-	{
-		buffer[1] = 0x8F;
+
+	
+ 		while(1){
+		
+				if(disp_sta_before!=disp_sta_after)
+		{
+			if(disp_sta_after==0x20)//zuo dpu1
+			{
+			buffer[1] = 0x80;
 		
 			I2C1_WriteOneByte(DPU1_DVI1_ADDR, DVI_REG_ADDR+1, buffer[1]);
 	
@@ -290,58 +296,26 @@ EXTI0_Init();	//初始化外部中断0(EXTI0)
 			I2C_WriteOneByte(DPU1_DVI4_ADDR, DVI_REG_ADDR+1, buffer[1]);
 	
 			I2C_WriteOneByte(DPU1_DVI5_ADDR, DVI_REG_ADDR+1, buffer[1]);
+			}
+			else if(disp_sta_after==0x10)//you dpu2
+			{
+			buffer[1] = 0x8F;	
+			I2C1_WriteOneByte(DPU1_DVI1_ADDR, DVI_REG_ADDR+1, buffer[1]);
 	
-
-	}
+			I2C1_WriteOneByte(DPU1_DVI2_ADDR, DVI_REG_ADDR+1, buffer[1]);
 	
- 		while(1){}
-			
-			
-	while(0)
-	{
-		key = JoyStick_Scan(0);
-		if(key == KEY_CENTER)//进行一次I2C读写
-		{
-
-	//		I2C_ReadBurst(DVI_DevAddr, DVI_REG_ADDR+0x2, buffer, 5);
-//			data = MPU6050_getDeviceID();
-
-	if(flag == 1)
-	{
-		buffer[1] = 0x80;
-		flag = 0;
-	}
-	else
-	{
-		buffer[1] = 0x8F;
-		flag = 1;
-	}
+			I2C1_WriteOneByte(DPU1_DVI3_ADDR, DVI_REG_ADDR+1, buffer[1]);
 		
-	I2C1_WriteOneByte(DPU1_DVI1_ADDR, DVI_REG_ADDR+0x1, buffer[1]);
-	
-	/*
-			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR, buffer, 5);
-			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x06, buffer, 3);
-			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x0A, buffer, 3);
-			I2C_WriteBurst(DVI_DevAddr, DVI_REG_ADDR+0x10, buffer, 3);
-			*/
-			OLED_ShowxNum(72,32,buffer[3],2,16,0x13);
-		//	OLED_ShowxNum(72,32,data,2,16,0x13);
-			if(data == 0x68)
-				OLED_ShowString(64,48,"SUCCESS");
-			else
-				OLED_ShowString(64,48,"ERROR  ");
-		}
 
-		
-		OLED_Refresh_Gram();
-		delay_ms(50);
-		if(t++>5)
-		{
-			t=0;
-//			LED=!LED;//工作状态指示
+			I2C_WriteOneByte(DPU1_DVI4_ADDR, DVI_REG_ADDR+1, buffer[1]);
+	
+			I2C_WriteOneByte(DPU1_DVI5_ADDR, DVI_REG_ADDR+1, buffer[1]);
+				
+			}
+				
 		}
-	}
+		
+		}
 }
 
 

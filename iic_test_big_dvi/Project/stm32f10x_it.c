@@ -170,6 +170,9 @@ void RTC_IRQHandler(void)
   * @param  None
   * @retval None
   */
+ uint8_t disp_sta_before = 0;
+ uint8_t disp_sta_after = 0;
+
 void EXTI0_IRQHandler(void)
 {
 		//	NRF_StatusTypedef status = NRF_ERROR;
@@ -180,10 +183,8 @@ void EXTI0_IRQHandler(void)
 						NRF24L01_Read_Buf(RD_R1_PL1_CONTENT, result2, 3);
 //	if(status != NRF_SUCCESS)return ;//NRF24L01通信错误	
 		
-				if(0x30==result2[2])
-				{
-					//return;
-				}
+		disp_sta_before =disp_sta_after;
+		disp_sta_after = (result2[2]&0x30);
 		
 //		LED=!LED;
     EXTI_ClearITPendingBit(EXTI_Line0);//清除EXTI line0的中断标志
