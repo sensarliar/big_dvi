@@ -50,6 +50,44 @@
 #include "stm32f10x.h"
 #include "bitband.h"
 
+
+//////HI-3593, REGS
+//0x04 W 0 Software controlled Master Reset
+//0x10 W 1 Write Receiver 1 Control Register
+//0x18 W 3 Write Receiver 1 Priority-Label Match Registers. The data field consists of three eight-bit labels. The first data
+//byte is written to P-L filter #3, the second to P-L filter #2, and the last byte to filter #1
+//0x34 W 1 Write Flag / Interrupt Assignment Register
+
+//0x90 R 1 Read Receiver 1 Status Register
+
+//0x94 R 1 Read Receiver 1 Control Register
+//0x98 R 32 Read label values from Receiver 1 label memory.
+
+//0x9C R 3 Read Receiver 1 Priority-Label Match Registers.
+//0xA0 R 4 Read one ARINC 429 message from the Receiver 1 FIFO
+//0xA4 R 3 Read Receiver 1 Priority-Label Register #1, ARINC429 bytes 2,3 & 4 (bits 9 - 32)
+//0xA8 R 3 Read Receiver 1 Priority-Label Register #2, ARINC429 bytes 2,3 & 4 (bits 9 - 32)
+//0xAC R 3 Read Receiver 1 Priority-Label Register #3, ARINC429 bytes 2,3 & 4 (bits 9 - 32)
+//0xB0 R 1 Read Receiver 2 Status Register
+//0xD0 R 1 Read Flag / Interrupt Assignment Register
+
+#define MASTER_RST	 0x04	
+#define WR_R1_CTL		 0x10	
+#define WR_R1_PL1_MATCH		 0x18
+#define WR_FLAG_ASSIGN 0x34
+
+#define RD_R1_STA		 0x90
+#define RD_R1_CTL		 0x94
+#define RD_R1_32LABEL		 0x98
+#define RD_R1_PL1_MATCH		 0x9C
+#define RD_R1_FIFO	 0xA0
+#define RD_R1_PL1_CONTENT		 0xA4
+#define RD_R1_PL2_CONTENT		 0xA8
+#define RD_R1_PL3_CONTENT		 0xAC
+#define RD_R2_STA		 0xB0
+#define RD_FLAG_ASSIGN 0xD0
+
+
 //NRF24L01寄存器操作命令
 #define NRF_READ_REG		 0x00	//读配置寄存器，低5位为寄存器地址
 #define NRF_WRITE_REG		 0x20	//写配置寄存器，低5位为寄存器地址
@@ -105,8 +143,8 @@
 
 //定义NRF24L01控制GPIO
 #define NRF_CE									GPIOout(GPIOA,2)
-#define NRF_CSN									GPIOout(GPIOA,3)
-#define NRF_IRQ									GPIOin(GPIOA, 4)
+#define NRF_CSN									GPIOout(GPIOA,4)
+#define NRF_IRQ									GPIOin(GPIOA, 3)
 
 #define NRF_CSN_SELECT()				{NRF_CSN = 0;}
 #define NRF_CSN_DESELECT()			{NRF_CSN = 1;}
@@ -119,12 +157,14 @@ typedef enum
 	NRF_TIMEOUT,
 }NRF_StatusTypedef;
 
-uint8_t NRF24L01_Init(void);			//NRF24L01初始化
+//uint8_t NRF24L01_Init(void);			//NRF24L01初始化
+void NRF24L01_Init(void);			//NRF24L01初始化
 NRF_StatusTypedef NRF24L01_Write_Reg(uint8_t reg, uint8_t val);
 NRF_StatusTypedef NRF24L01_Read_Reg(uint8_t reg, uint8_t* val);
 NRF_StatusTypedef NRF24L01_Write_Buf(uint8_t reg, uint8_t* pbuf, uint8_t num);
 NRF_StatusTypedef NRF24L01_Read_Buf(uint8_t reg, uint8_t* pbuf, uint8_t num);
 NRF_StatusTypedef NRF24L01_Check(void);	//检查24L01是否存在
+NRF_StatusTypedef A429_config(void);
 void NRF24L01_RX_Mode(void);
 void NRF24L01_TX_Mode(uint8_t CHx);
 uint8_t NRF24L01_TxPacket(uint8_t *buf);

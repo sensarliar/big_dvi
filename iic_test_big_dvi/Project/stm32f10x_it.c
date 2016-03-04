@@ -28,6 +28,7 @@
 #include "led.h"
 #include "rtc.h"
 #include "timer.h"
+#include "nrf24l01.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -158,7 +159,7 @@ void RTC_IRQHandler(void)
   if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
   {
     RTC_ClearITPendingBit(RTC_IT_SEC);//清除RTC秒中断标志位
-    LED=!LED;							//LED翻转
+//    LED=!LED;							//LED翻转
     TimeDisplay = 1;			//时间更新标志置1
     RTC_WaitForLastTask();//等待RTC寄存器操作完成 
   }
@@ -171,9 +172,20 @@ void RTC_IRQHandler(void)
   */
 void EXTI0_IRQHandler(void)
 {
+		//	NRF_StatusTypedef status = NRF_ERROR;
+//result2[5] = {0x00,0x00,0x00,0x00,0x00};
+	static	uint8_t result2[5] = {0x00,0x00,0x00,0x00,0x00};
   if(EXTI_GetITStatus(EXTI_Line0) != RESET)
   {
-		LED=!LED;
+						NRF24L01_Read_Buf(RD_R1_PL1_CONTENT, result2, 3);
+//	if(status != NRF_SUCCESS)return ;//NRF24L01通信错误	
+		
+				if(0x30==result2[2])
+				{
+					//return;
+				}
+		
+//		LED=!LED;
     EXTI_ClearITPendingBit(EXTI_Line0);//清除EXTI line0的中断标志
   }
 }
@@ -302,7 +314,7 @@ void TIM3_IRQHandler(void)   //TIM3中断
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //检查TIM3更新中断发生与否
 	{
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update  ); //清除TIM3更新中断标志 
-		LED=!LED;
+//		LED=!LED;
 	}
 }
 

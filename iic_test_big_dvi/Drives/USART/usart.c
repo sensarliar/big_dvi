@@ -208,8 +208,8 @@ void COM_Init(COM_TypeDef COM, uint32_t BaudRate)
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
   USART_Init(COM_USART[COM], &USART_InitStructure);			//根据串口配置信息初始化串口 
 
-	USART_ITConfig(COM_USART[COM], USART_IT_RXNE, ENABLE);//开启串口接收中断
-  USART_Cmd(COM_USART[COM], ENABLE);										//开启串口
+//	USART_ITConfig(COM_USART[COM], USART_IT_RXNE, ENABLE);//开启串口接收中断
+ // USART_Cmd(COM_USART[COM], ENABLE);										//开启串口
 }
 
 #if COM_DMA_TRANSFER

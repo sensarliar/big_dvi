@@ -35,7 +35,7 @@
 #include "stm32f10x.h"
 #include "bitband.h"	//使用位带操作，一定要包含此头文件
 
-#define LED		GPIOout(GPIOB, 12)	//定义PB12位带操作
+//#define LED		GPIOout(GPIOB, 12)	//定义PB12位带操作
 
 void LED_Init(void);	//LED IO初始化
 void LED_On(void);		//LED亮

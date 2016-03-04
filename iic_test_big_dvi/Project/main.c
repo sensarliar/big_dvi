@@ -51,6 +51,7 @@
 //#include "i2c.h"
 #include "mpu6050.h"
 #include "i2c1.h"
+#include "nrf24l01.h"
 
 #define DVI_REG_ADDR 0x00
 //#define DVI_DevAddr 0x08
@@ -71,6 +72,8 @@
 //32~38W
 //7-bit slave address (0000ADD[2:0]) followed by an 8th bit which is the data direction bit (R/W). A zero
 //indicates a WRITE and a 1 indicates a READ.
+//HI-3593
+#define MASTER_RESET		GPIOout(GPIOB, 12)	//定义PB12位带操作
 
 ///BUFF FOR dpu1:dvi1,dvi2,dvi3
 void modify_buff(uint8_t* buffer)
@@ -158,12 +161,13 @@ int main(void)
 	
 	uint8_t buffer[19];
 
-	
-/*
-	LED_Init();				//LED IO初始化
-	Delay_Init();			//延时初始化
+			Delay_Init();			//延时初始化
+		LED_Init();				//LED IO初始化
+
+
+//	Delay_Init();			//延时初始化
 	COM_Init(COM1, 115200);//串口1初始化
-	OLED_Init();			//初始化OLED
+/*	OLED_Init();			//初始化OLED
 	ADC_Initialize();	//ADC初始化
 	JoyStick_Init();	//摇杆按键(JoyStick)初始化
 	BEEP_Init();			//蜂鸣器初始化
@@ -178,11 +182,17 @@ int main(void)
 	OLED_Refresh_Gram();
 	*/
 	
-		Delay_Init();			//延时初始化
+			NRF24L01_Init();
+			
+							
+	
+
 			I2C1_Init();				//初始化I2C接口
 			delay_ms(500);
 			I2C_Init();				//初始化I2C接口
 			delay_ms(500);
+			
+
 
 ////////DVI 
 
@@ -250,6 +260,22 @@ int main(void)
 	{
 			I2C1_WriteOneByte(DPU2_DVI3_ADDR, DVI_REG_ADDR+i, buffer[i]);
 	}
+	
+	
+
+		
+	MASTER_RESET = 1;
+	delay_ms(1);
+	MASTER_RESET = 0;
+	delay_ms(1);
+	
+EXTI0_Init();	//初始化外部中断0(EXTI0)
+	delay_ms(1);
+		A429_config();
+		NRF24L01_Check();
+	
+
+	
 	if(1)
 	{
 		buffer[1] = 0x8F;
@@ -313,7 +339,7 @@ int main(void)
 		if(t++>5)
 		{
 			t=0;
-			LED=!LED;//工作状态指示
+//			LED=!LED;//工作状态指示
 		}
 	}
 }
