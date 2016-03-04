@@ -219,9 +219,8 @@ int main(void)
 	}
 	
 ////// POWER OFF B_PORT IN
-//	buffer[7] = 0x80;
-	
-	//nihao
+	buffer[7] = 0x80;
+
 		for(i = 0; i < 19; i++)
 	{
 			I2C_WriteOneByte(EVS_DVI_ADDR, DVI_REG_ADDR+i, buffer[i]);
