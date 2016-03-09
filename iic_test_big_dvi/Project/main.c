@@ -88,19 +88,19 @@ void modify_buff(uint8_t* buffer)
 //	buffer[3] = 0x0D;
 	buffer[3] = 0x0F;
 //	buffer[4] = 0x00;
-	buffer[4] = 0x13;
+	buffer[4] = 0x33;
 //	buffer[4] = 0x11;
 	buffer[5] = 0x00;
 	//B
 	buffer[6] = 0x0C;
 	buffer[7] = 0x0F;
-	buffer[8] = 0x13;
+	buffer[8] = 0x33;
 	buffer[9] = 0x00;
 	//C
 	//buffer[10] = 0xF5;
 	buffer[10] = 0x0C;
 	buffer[11] = 0x0F;
-	buffer[12] = 0x13;
+	buffer[12] = 0x33;
 	buffer[13] = 0x00;
 
 	buffer[14] = 0x00;
@@ -120,12 +120,12 @@ void modify_buff2(uint8_t* buffer)
 		//A
 	buffer[2] = 0x0C;
 	buffer[3] = 0x80;
-	buffer[4] = 0x13;//33
+	buffer[4] = 0x33;//33
 	buffer[5] = 0x00;
 	//B
 	buffer[6] = 0x0C;
 	buffer[7] = 0x80;
-	buffer[8] = 0x13;
+	buffer[8] = 0x33;
 	buffer[9] = 0x00;
 	//C
 	//buffer[10] = 0xF5;
